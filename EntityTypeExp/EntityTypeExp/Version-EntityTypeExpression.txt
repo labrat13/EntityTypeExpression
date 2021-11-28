@@ -1,0 +1,4 @@
+﻿Version файл для проекта EntityTypeExpression
+
+1.0.0.0 Начальная версия 
+
