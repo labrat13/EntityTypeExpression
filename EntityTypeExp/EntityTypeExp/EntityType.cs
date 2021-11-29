@@ -11,6 +11,8 @@ namespace EntityTypeExp
     {
 
         #region *** Fields ***
+        //TODO: заменить эти два словаря на объекты EntityTypesCollection
+
         /// <summary>
         /// абстрактные надклассы
         /// </summary>
