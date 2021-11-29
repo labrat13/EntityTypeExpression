@@ -4,17 +4,11 @@ using System.Text;
 
 namespace EntityTypeExp
 {
-
     /// <summary>
-    /// Строка записи классов для одной сущности.
+    /// Статический класс для операций с иерархией абстракции в записях классов.
     /// </summary>
-    public class EntityTypeExpression
+    public static class EntityPath
     {
         //TODO: add code here
     }
-
-
-
-
-
 }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ClassificationEntity.oldversion
+namespace EntityTypeExp
 {
     /// <summary>
-    /// Представляет несколько классов сущностей.
-    /// Представляет несколько классов разных классификаций для одной сущности.
+    /// Коллекция-словарь типов сущностей
     /// </summary>
     public class EntityTypesCollection
     {
@@ -90,7 +89,6 @@ namespace ClassificationEntity.oldversion
 
             return;
         }
-
 
     }//end class
 }

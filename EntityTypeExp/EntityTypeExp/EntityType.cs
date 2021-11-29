@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ClassificationEntity.oldversion
+namespace EntityTypeExp
 {
     /// <summary>
     /// Представляет класс сущности
     /// </summary>
     public class EntityType
     {
-        
+
         #region *** Fields ***
         /// <summary>
         /// абстрактные надклассы
         /// </summary>
         private Dictionary<String, EntityType> m_AbstractionSuperClasses;
 
-        
+
         /// <summary>
         /// агрегатные подклассы
         /// </summary>
@@ -27,7 +27,7 @@ namespace ClassificationEntity.oldversion
         /// Название класса сущности
         /// </summary>
         private String m_Title;
- 
+
         #endregion
 
         /// <summary>
@@ -138,25 +138,21 @@ namespace ClassificationEntity.oldversion
             //[0] Мои места:: Коллекция музыки<Файл::ФайлМузыки>
             //[1] Файловая система ::Папка < Файловая система::Папка,Файл>
             //[2] ФайлМузыки
-            //TODO: недоработка: предполагается, что только конечный класс содержит сведения о агрегации (<> и классы)
-            //- это не универсальный случай, вообще-то каждый класс может содержать такие сведения о агрегации.
-            //Но здесь это будет вызывать ошибку.
-
 
             //парсим
             //1) удаляем пробелы с начала и конца выражения
             String exp = expression.Trim();
             //2) разделяем на элементы по < и >
-
             String[] sar = exp.Split(new char[] { '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
             //3) обрабатываем разделы
             //[0] суперкласс и класс - Мои места:: Коллекция музыки / Файловая система ::Папка / ФайлМузыки
             //[1] агрегированные подклассы -  Файл::ФайлМузыки / Файловая система::Папка,Файл / нет 
+
             //3.1) обрабатываем название класса и суперкласса. Элемент 0 всегда должен существовать.
             ParseClassTitle(sar[0]);
-        
+
             //3.2) парсим агрегатные субклассы, если они есть
-            if(sar.Length == 1) return; //все распарсили, выходим
+            if (sar.Length == 1) return; //все распарсили, выходим
             //если более 2 элементов массива, это неправильный формат, выбрасываем исключение.
             if (sar.Length > 2) throw new Exception(String.Format("Неправильное выражение: {0}", expression));
             if (sar.Length == 2)
@@ -165,7 +161,7 @@ namespace ClassificationEntity.oldversion
                 //делим по запятым
                 String[] sar2 = s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 //теперь получаем 1 и более элементов вида Файл::ФайлМузыки  Файловая система::Папка  Файл 
-                if(sar.Length == 0)
+                if (sar.Length == 0)
                     throw new Exception(String.Format("Неправильная запись агрегированных субклассов: {0}", expression));
                 foreach (string ss in sar2)
                 {
@@ -185,8 +181,8 @@ namespace ClassificationEntity.oldversion
         /// <param name="expression">Строка выражения. Например, "Файл::Файл музыки"</param>
         public void ParseClassTitle(String expression)
         {
-            
             //TODO: недоработка: только один или два класса парсятся. Поэтому нельзя указать целую ветвь классов.
+
             //варианты выражений:
             //[0] Мои места:: Коллекция музыки
             //[1] Файловая система ::Папка 
@@ -196,7 +192,7 @@ namespace ClassificationEntity.oldversion
             //проверяем наличие суперкласса в выражении
             if (s.Contains("::"))
             {
-                //Входные случаи [0] и [1]
+                //Входные случаи [1] и [2]
                 String[] sar2 = s.Split(new string[] { "::" }, StringSplitOptions.RemoveEmptyEntries); //делим на название суперкласса и название текущего класса
                 this.m_Title = sar2[1].Trim(); //пишем название текущего класса
                 EntityType et = new EntityType(sar2[0].Trim()); //создаем объект для суперкласса и пишем в него имя
