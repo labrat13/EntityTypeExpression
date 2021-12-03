@@ -21,7 +21,7 @@ namespace EntityTypeExp
         /// <summary>
         /// Разделитель ";" между записями классов в строке описания классов
         /// </summary>
-        public const string ClassDelimiter = ";";
+        public const char ClassDelimiter = ';';
         /// <summary>
         /// Разделитель "::" Абстракции в записи классов
         /// </summary>
@@ -29,68 +29,70 @@ namespace EntityTypeExp
         /// <summary>
         /// Разделитель "," Агрегации в записи классов
         /// </summary>
-        public const string AggregationDelimiter = ",";
+        public const char AggregationDelimiter = ',';
         /// <summary>
         /// Символ начала группы агрегации
         /// </summary>
-        internal const char AggregationGroupBegin = '<';
+        public const char AggregationGroupBegin = '<';
         /// <summary>
         /// Символ завершения группы агрегации
         /// </summary>
-        internal const char AggregationGroupEnd = '>';
+        public const char AggregationGroupEnd = '>';
         //TODO: привести эти переменные к единому виду и области видимости
 
         /// <summary>
-        /// NR-Получить массив символов, недопустимых в названии класса
+        /// NT-Проверить, что символ допустим для использования в названии класса
         /// </summary>
         /// <returns></returns>
-        public static char[] getInvalidClassTitleChars()
+        public static bool isValidClassTitleChar(Char ch)
         {
-            //- вернуть ссылку на статический массив символов, недопустимых в названии класса
-            throw new NotImplementedException();//TODO: Add code here
+            if(Char.IsLetterOrDigit(ch) == true)
+                return true;
+            if(ch == ' ') return true;//space allowed as part of class title
+            if(ch == '-') return true;
+            if(ch == '+') return true;
+            if(ch == '=') return true;
+            if(ch == '_') return true;
+
+            return false;
         }
 
         /// <summary>
-        /// NR-Получить массив символов, недопустимых в выражении
+        /// NT-Проверить, что символ допустим для использования в выражении классов
         /// </summary>
         /// <returns></returns>
-        public static char[] getInvalidExpressionChars()
+        public static bool isValidExpressionChar(Char ch)
         {
-            //- вернуть ссылку на статический массив символов, недопустимых в выражении
-            //TODO: уточнить смысл по Path.GetInvalidPathChars()
-            throw new NotImplementedException();//TODO: Add code here
+            //символы грамматики классов
+            if (ch == EntityPath.AggregationGroupBegin) return true;
+            if (ch == EntityPath.AggregationGroupEnd) return true;
+            if (ch == EntityPath.ClassDelimiter) return true;
+            if (ch == EntityPath.AggregationDelimiter) return true;
+            //символы названия класса
+            return isValidClassTitleChar(ch);
         }
 
-        /// <summary>
-        /// NR-Получить цепочку до родительского класса - на уровень выше подняться в иерархии абстракции.
-        /// </summary>
-        /// <returns>Возвращает объект родительского класса или null, если родительский класс не удалось найти.</returns>
-        public static string getParent(string classPath)
-        {
-            //- Получить цепочку до родительского класса - на уровень выше подняться в иерархии абстракции.
-            //- применимо, если цепочка длинная или если есть дерево классов.
-            //- в этом классе нет дерева классов, поэтому - только по цепочке.
-            throw new NotImplementedException();//TODO: Add code here
 
-            //int position = m_ClassPathString.LastIndexOf(AbstractionDelimiter);
-            ////если это единственный класс в строке названия, то вернуть null.
-            //if (position == -1) return null;
-            ////иначе разделить строку на части по последнему разделителю и вернуть объект, созданный из первой части.
-            //string baseclass = m_ClassPathString.Remove(position);//todo: check this!!!
-            //return new ClassItem(baseclass.Trim());
-        }
 
         /// <summary>
-        /// NR-Объединить имена классов в путь классов 
+        /// NT-Объединить имена классов в путь классов 
         /// </summary>
         /// <param name="classes">Массив имен классов</param>
-        /// <returns>
-        /// Возвращает путь классов вида: Предмет::Радиодеталь::Транзистор 
-        /// или: Предмет
-        /// </returns>
+        /// <returns>Возвращает путь классов вида: Предмет::Радиодеталь::Транзистор или: Предмет</returns>
         public static string JoinClasses(string[] classes)
         {
-            return String.Join(AbstractionDelimiter, classes);
+            return String.Join(EntityPath.AbstractionDelimiter, classes);
+        }
+        /// <summary>
+        /// NT-Объединить имена классов в путь классов
+        /// </summary>
+        /// <param name="classes">Массив имен классов</param>
+        /// <param name="startIndex">Начальный индекс в массиве</param>
+        /// <param name="count">Число используемых элементов массива</param>
+        /// <returns>Возвращает путь классов вида: Предмет::Радиодеталь::Транзистор или: Предмет</returns>
+        public static string JoinClasses(string[] classes, int startIndex, int count)
+        {
+            return String.Join(EntityPath.AbstractionDelimiter, classes, startIndex, count);
         }
 
         /// <summary>
@@ -98,13 +100,13 @@ namespace EntityTypeExp
         /// </summary>
         /// <param name="classPath">Цепочка классов вида Предмет::Радиодеталь::ххх</param>
         /// <returns>Возвращает массив строк имен классов в исходном порядке следования.</returns>
-        public static string[] Split(string classPath)
+        public static string[] SplitSimple(string classPath)
         {
             //  - А::Б::В => А; Б; В;
             //- так как названия классов должны быть уникальными, достаточно разделить строку по AbstractionSeparator и обработать Trim()
             //- возвращает string[]
-            
-            String[] splitter = new String[] { AbstractionDelimiter };
+
+            String[] splitter = new String[] { EntityPath.AbstractionDelimiter };
             string[] classes = classPath.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
             //trim class names
             for (int i = 0; i < classes.Length; i++)
@@ -114,115 +116,143 @@ namespace EntityTypeExp
         }
 
         /// <summary>
-        /// NR-Разделить цепочку классов на отдельные классы, без групп агрегации.
+        /// NR-Разделить цепочку классов на отдельные классы.
         /// </summary>
         /// <param name="classPath">Цепочка классов вида Предмет::Радиодеталь::ххх</param>
         /// <returns>Возвращает массив строк имен классов в исходном порядке следования.</returns>
-        public static string[] SplitTitles(string classPath)
+        public static string[] Split(string classPath)
         {
-            //  - А::Б::В<Г, Д> => А; Б; В;
-            //- так как названия классов должны быть уникальными, достаточно разделить строку по AbstractionSeparator и обработать Trim()
-            //- но потом для каждого класса удалить группу агрегации, если она есть.
+            //  - А::Б::В<Г::Е, Д> => А; Б; В<Г::Е, Д>;
             //- возвращает string[]
+
+            //варианты выражений:
+            //[0] Мои места:: Коллекция музыки<Файл::ФайлМузыки>
+            //[1] Файловая система ::Папка < Файловая система::Папка,Файл>
+            //[2] ФайлМузыки
+            //предполагается, что только конечный класс содержит сведения о агрегации (<> и классы)
+            //- это не универсальный случай, вообще-то каждый класс может содержать такие сведения о агрегации.
+
+            //1 надо разделить выражение по EntityPath.AbstractionDelimiter, если он не находится внутри группы агрегации.
+            //тут надо бы парсер посимвольный конечный автомат сделать, он бы и выражение проверял на правильность сразу.
+            //а эти вот сплиты по разделителям - неправильное решение.
+
             throw new NotImplementedException();//TODO: Add code here
-
-            ////варианты выражений:
-            ////[0] Мои места:: Коллекция музыки<Файл::ФайлМузыки>
-            ////[1] Файловая система ::Папка < Файловая система::Папка,Файл>
-            ////[2] ФайлМузыки
-            ////TODO: недоработка: предполагается, что только конечный класс содержит сведения о агрегации (<> и классы)
-            ////- это не универсальный случай, вообще-то каждый класс может содержать такие сведения о агрегации.
-            ////Но здесь это будет вызывать ошибку.
-
-            ////1 отделим путь класса от записи агрегации по < и >
-            //String[] sar = exp.Split(new char[] { '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
-
-            ////2 обрабатываем разделы
-            ////[0] суперкласс и класс - Мои места:: Коллекция музыки / Файловая система ::Папка / ФайлМузыки
-            ////[1] агрегированные подклассы -  Файл::ФайлМузыки / Файловая система::Папка,Файл / нет 
-            ////2.1 обрабатываем название класса и суперклассов. Элемент 0 всегда должен существовать.
-            //String[] result = SplitClassPath(sar[0]);
-
-            //return result;
         }
 
         /// <summary>
-        /// NR-Разделить цепочку классов на отдельные классы
+        /// NT-Разделить цепочку классов на отдельные классы
         /// </summary>
         /// <param name="classPath">Цепочка классов вида Предмет::Радиодеталь::ххх</param>
         /// <returns>Возвращает массив строк имен классов в исходном порядке следования, c цепочкой родительских классов для каждого члена массива.</returns>
         public static string[] SplitWithParents(string classPath)
         {
-            
             // разделить цепочку классов на отдельные классы с указанием родительских классов
             //- А::Б::В => А; А::Б; А::Б::В; 
             //- возвращает string[]
-            throw new NotImplementedException();//TODO: Add code here
-            
-            //String[] splitter = new String[] { AbstractionDelimiter };
-            //string[] classes = classPath.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-            ////trim class names
-            //for (int i = 0; i < classes.Length; i++)
-            //    classes[i] = classes[i].Trim();
 
-            //return classes;
+            //1 parse class path
+            string[] cs = EntityPath.Split(classPath);
+            
+            //2 create and fill result array
+            int size = cs.Length;
+            //3 создать выходной массив
+            string[] result = new String[size];
+            //4 если массив пустой, сразу вернем его
+            if (size == 0) return result;
+            //5 собрать цепочки классов в цикле 
+            for(int i = 0; i < size; i++)
+            {
+                result[i] = EntityPath.JoinClasses(cs, 0, i + 1);
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// NR-Получить запись последнего класса цепочки классов
+        /// NT-Получить цепочку до родительского класса - на уровень выше подняться в иерархии абстракции.
         /// </summary>
-        /// <param name="classPath"></param>
+        /// <param name="classPath">Запись класса</param>
+        /// <returns>Возвращает объект родительского класса или null, если родительский класс не удалось найти.</returns>
+        public static string getParent(string classPath)
+        {
+            //- Получить цепочку до родительского класса - на уровень выше подняться в иерархии абстракции.
+            //- применимо, если цепочка длинная или если есть дерево классов.
+            //- в этом классе нет дерева классов, поэтому - только по цепочке.
+            //Пример А::Б::В<Г::Е, Д>
+
+            //1 parse class path
+            string[] cs = EntityPath.Split(classPath);
+            int size = cs.Length;
+            //если нет родительского класса, вернуть null
+            if (size < 2) return null;
+            //2 create result
+            string result = EntityPath.JoinClasses(cs, 0, size - 1);
+
+            return result;
+        }
+        /// <summary>
+        /// NT-Получить запись последнего класса цепочки классов
+        /// </summary>
+        /// <param name="classPath">Запись класса</param>
         /// <returns></returns>
         public static string getLastClass(string classPath)
         {
-            //вернуть последний класс цепочки абстракции классов
-            
-            throw new NotImplementedException();//TODO: Add code here
-            
-            ////разделить строку по последнему разделителю
-            //int position = classPath.LastIndexOf(AbstractionDelimiter);
-            ////если это единственный класс в строке названия, то вернуть его.
-            //if (position == -1) return classPath;
-            ////иначе вернуть вторую часть строки
-            //string result = classPath.Substring(position + AbstractionDelimiter.Length);
-            //return result.Trim();
-        }
-        /// <summary>
-        /// NR-Получить название последнего класса цепочки классов
-        /// </summary>
-        /// <param name="classPath"></param>
-        /// <returns>Возвращает только название последнего класса в цепочке классов, без группы агрегации и </returns>
-        public static string getClassTitle(string classPath)
-        {
-            throw new NotImplementedException();//TODO: Add code here
+            //вернуть последний класс из цепочки абстракции классов
+
+            //1 parse class path
+            string[] cs = EntityPath.Split(classPath);
+            int size = cs.Length;
+            //если нет классов в записи, вернуть пустую строку
+            if (size == 0) return String.Empty;
+            //2 create result
+            string result = cs[size - 1];
+
+            return result;
         }
 
         /// <summary>
-        /// NR-Получить запись последнего класса цепочки классов
+        /// NT-Получить название последнего класса цепочки классов
         /// </summary>
-        /// <param name="classPath"></param>
+        /// <param name="classPath">Запись класса</param>
+        /// <returns>Возвращает только название последнего класса в цепочке классов, без группы агрегации и </returns>
+        public static string getClassTitle(string classPath)
+        {
+            string last = EntityPath.getLastClass(classPath);
+            //ищем позицию AggregationGroupBegin
+            int pos = last.IndexOf(EntityPath.AggregationGroupBegin);
+            //если не нашли, возвращаем строку класса
+            if (pos == -1) return last;
+            //если нашли, обрезаем и возвращаем строку названия класса
+            string result = last.Remove(pos);
+
+            return result;
+        }
+
+        /// <summary>
+        /// NT-Получить запись первого класса цепочки классов
+        /// </summary>
+        /// <param name="classPath">Запись класса</param>
         /// <returns></returns>
         public static string getRootClass(string classPath)
         {
             //вернуть первый класс цепочки абстракции классов
+            //1 parse class path
+            string[] cs = EntityPath.Split(classPath);
+            int size = cs.Length;
+            //если нет классов в записи, вернуть пустую строку
+            if (size == 0) return String.Empty;
+            //2 create result
+            string result = cs[0];
 
-            throw new NotImplementedException();//TODO: Add code here
-
-            ////разделить строку по последнему разделителю
-            //int position = classPath.LastIndexOf(AbstractionDelimiter);
-            ////если это единственный класс в строке названия, то вернуть его.
-            //if (position == -1) return classPath;
-            ////иначе вернуть вторую часть строки
-            //string result = classPath.Substring(position + AbstractionDelimiter.Length);
-            //return result.Trim();
+            return result;
         }
 
         /// <summary>
         /// NR-соединить две строки путей классов вместе.
         /// Объединение происходит по правилам для классов Хранилища
         /// </summary>
-        /// <param name="baseClassPathString">Строка названия базового класса</param>
-        /// <param name="classPathString">Строка названия класса</param>
+        /// <param name="baseClassPathString">Запись базового класса</param>
+        /// <param name="classPathString">Запись класса</param>
         /// <returns>Возвращает объединенную строку путей классов</returns>
         public static string Combine(string baseClassPathString, string classPathString)
         {
@@ -265,9 +295,9 @@ namespace EntityTypeExp
         /// Объединение происходит по правилам для классов Хранилища
         /// Оптимизированная версия для массовых операций Хранилища
         /// </summary>
-        /// <param name="baseClasses">Массив названий классов базового класса Хранилища</param>
-        /// <param name="classPathString">Строка пути класса</param>
-        /// <returns>Возвращает объединенную строку путей классов</returns>
+        /// <param name="baseClasses">Массив записей классов базового класса Хранилища</param>
+        /// <param name="classPathString">Запись класса</param>
+        /// <returns>Возвращает объединенную строку записи классов</returns>
         public static string Combine(string[] baseClasses, string classPathString)
         {
             //сцепить две строки цепочки классов, если есть одинаковые классы
@@ -305,7 +335,7 @@ namespace EntityTypeExp
         /// NR-Удалить БазовыйКлассХранилища из строки пути класса
         /// </summary>
         /// <param name="baseClassPathString">БазовыйКлассХранилища</param>
-        /// <param name="classPathString">Полная строка пути класса</param>
+        /// <param name="classPathString">Полная запись класса</param>
         /// <returns>Возвращает разностную строку путей классов</returns>
         public static string Subtract(string classPathString, string baseClassPathString)
         {
@@ -356,7 +386,7 @@ namespace EntityTypeExp
         /// NR-Удалить БазовыйКлассХранилища из строки пути класса
         /// </summary>
         /// <param name="baseClassPathString">БазовыйКлассХранилища</param>
-        /// <param name="classPathString">Полная строка пути класса</param>
+        /// <param name="classPathString">Полная запись класса</param>
         /// <returns>Возвращает разностную строку путей классов</returns>
         public static string Subtract2(string classPathString, string baseClassPathString)
         {
