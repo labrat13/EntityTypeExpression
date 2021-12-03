@@ -5,7 +5,7 @@ using System.Text;
 namespace EntityTypeExp
 {
     /// <summary>
-    /// Статический класс для операций с иерархией абстракции в записях классов.
+    /// Статический класс для операций с цепочками абстракции в записях классов.
     /// </summary>
     public static class EntityPath
     {
@@ -38,6 +38,7 @@ namespace EntityTypeExp
         /// Символ завершения группы агрегации
         /// </summary>
         internal const char AggregationGroupEnd = '>';
+        //TODO: привести эти переменные к единому виду и области видимости
 
         /// <summary>
         /// NR-Получить массив символов, недопустимых в названии класса
@@ -438,7 +439,33 @@ namespace EntityTypeExp
         {
             throw new NotImplementedException();//TODO: Add code here
         }
-
-
+        /// <summary>
+        /// NT-Проверить, что выражение описывает только один класс.
+        /// </summary>
+        /// <param name="expression">Текст выражения</param>
+        /// <returns>Функция возвращает True, если текст выражения описывает только единственный класс или является пустой строкой, False - в противном случае.</returns>
+        /// <example>
+        /// Пример:
+        /// Для выражения " " функция возвращает True.
+        /// Для выражения "Класс" функция возвращает True.
+        /// Для выражения "Класс::Подкласс" функция возвращает True.
+        /// Для выражения "Класс;Класс::Подкласс"  функция возвращает False.
+        /// </example>
+        public static bool isSingleClassExpression(string expression)
+        {
+            //bool result = expression.Contains(ClassDelimiter);
+            //такое простое решение не прокатит - выражение может содержать один класс и ClassDelimiter после него.
+            
+            string ex = expression.Trim();
+            //если в строке нет символов вообще, возвращаем true, чтобы не запускать IndexOf()
+            if (expression.Length == 0) return true;
+            int delimiterPos = ex.IndexOf(EntityPath.ClassDelimiter);
+            //если разделителя нет в строке, возвращаем true
+            if (delimiterPos == -1) return true;
+            //если разделитель в строке единственный и идет последним символом строки, возвращаем true.
+            if (delimiterPos == ex.Length - 1) return true;
+            //иначе возвращаем false
+            return false;
+        }
     }
 }
