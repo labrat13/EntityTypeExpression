@@ -57,7 +57,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ДобавитьПримерыВыраженийКлассов.txt" />
-    <Content Include="Работать-НовыйСписокТребований.txt" />
+    <Content Include="СостояниеПроекта.txt" />
     <Content Include="Спецификация.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

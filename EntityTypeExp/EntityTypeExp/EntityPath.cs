@@ -75,21 +75,21 @@ namespace EntityTypeExp
 
 
         /// <summary>
-        /// NT-Объединить имена классов в путь классов 
+        /// NT-Объединить имена классов в цепочку классов 
         /// </summary>
         /// <param name="classes">Массив имен классов</param>
-        /// <returns>Возвращает путь классов вида: Предмет::Радиодеталь::Транзистор или: Предмет</returns>
+        /// <returns>Возвращает цепочку классов вида: Предмет::Радиодеталь::Транзистор или: Предмет</returns>
         public static string JoinClasses(string[] classes)
         {
             return String.Join(EntityPath.AbstractionDelimiter, classes);
         }
         /// <summary>
-        /// NT-Объединить имена классов в путь классов
+        /// NT-Объединить имена классов в цепочку классов
         /// </summary>
         /// <param name="classes">Массив имен классов</param>
         /// <param name="startIndex">Начальный индекс в массиве</param>
         /// <param name="count">Число используемых элементов массива</param>
-        /// <returns>Возвращает путь классов вида: Предмет::Радиодеталь::Транзистор или: Предмет</returns>
+        /// <returns>Возвращает цепочку классов вида: Предмет::Радиодеталь::Транзистор или: Предмет</returns>
         public static string JoinClasses(string[] classes, int startIndex, int count)
         {
             return String.Join(EntityPath.AbstractionDelimiter, classes, startIndex, count);
@@ -133,8 +133,10 @@ namespace EntityTypeExp
             //- это не универсальный случай, вообще-то каждый класс может содержать такие сведения о агрегации.
 
             //1 надо разделить выражение по EntityPath.AbstractionDelimiter, если он не находится внутри группы агрегации.
-            //тут надо бы парсер посимвольный конечный автомат сделать, он бы и выражение проверял на правильность сразу.
+            //TODO: тут надо парсер посимвольный (автомат состояний) сделать, он бы и выражение проверял на правильность сразу.
             //а эти вот сплиты по разделителям - неправильное решение.
+            //Вот в этой функции можно сделать автомат состояний для парсинга, а в прочих местах эту функцию вызывать?
+            //Сейчас тут новый код так и написан.
 
             throw new NotImplementedException();//TODO: Add code here
         }

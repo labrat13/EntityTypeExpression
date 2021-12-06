@@ -5,7 +5,7 @@ using System.Text;
 namespace InventoryModuleManager2.ClassificationEntity
 {
     /// <summary>
-    /// Представляет классы в системе Хранилищ - для Сущности и для Хранилища 
+    /// Представляет класс в системе Хранилищ - для Сущности и для Хранилища 
     /// </summary>
     public class ClassItem
     {
