@@ -332,6 +332,8 @@ namespace EntityTypeExp
             //result = String.Join(AbstractionDelimiter, baseClasses) + AbstractionDelimiter + classPathString;
             //return result;
         }
+        #region Заготовки функций Subtract()
+        //TODO: надо свести все эти заготовки в минимально достаточный набор функций
 
         /// <summary>
         /// NR-Удалить БазовыйКлассХранилища из строки пути класса
@@ -414,6 +416,23 @@ namespace EntityTypeExp
             //return result.Trim();
         }
 
+        //20. Вычесть из полного пути класса путь от корня до указанного надкласса
+        //- это чтобы вместо указания полного пути класса в таблице БД указывать только часть пути, относительно общего корня.
+        //  Например, полный путь Предмет::Радиодеталь::Транзистор::ТранзисторБиполярный::ТранзисторБиполярныйPNP
+        //указывать в таблице только ТранзисторБиполярный::ТранзисторБиполярныйPNP, 
+        //А путь Предмет::Радиодеталь::Транзистор хранить отдельно и подставлять при необходимости.
+        //- Эта функция для класса EntityPath.
+        /// <summary>
+        /// NR-Вычесть из полного пути класса путь от корня до указанного надкласса
+        /// </summary>
+        /// <param name="classPath">Полный путь класса</param>
+        /// <param name="rootPart">Корневой путь</param>
+        /// <returns></returns>
+        public static string SubtractRootPart(string classPath, string rootPart)
+        {
+            throw new NotImplementedException();//TODO: add code here
+        } 
+#endregion
         /// <summary>
         /// NR-Извлечь из выражения только цепочку абстракции класса
         /// </summary>
@@ -427,6 +446,18 @@ namespace EntityTypeExp
             //string[] classes = ParseClassPathFromClassExpression(exp);
             //string result = ClassItem.JoinClasses(classes);
             //return result;
+        }
+
+        /// <summary>
+        /// NT-Проверить, имеет ли класс подклассы агрегации - является ли контейнером.
+        /// </summary>
+        /// <param name="classPath"></param>
+        /// <returns></returns>
+        public static bool hasAggregation(string classPath)
+        {
+            //ищем первое же вхождение символа AggregationGroupBegin
+            //даже если оно не в названии конечного класса, все равно это класс-контейнер, так как он унаследует группу агрегации.
+            return (classPath.IndexOf(EntityPath.AggregationGroupBegin) > 0);
         }
 
         /// <summary>
@@ -461,6 +492,18 @@ namespace EntityTypeExp
  
             throw new NotImplementedException();//TODO: Add code here
         }
+
+        ////13.  проверить, что выражение не содержит нарушений структуры (имеет правильный формат)
+        ////- Это функция для классов EntityTypeExpression или EntityPath
+        ///// <summary>
+        ///// NR-проверить, что выражение не содержит нарушений структуры (имеет правильный формат)
+        ///// </summary>
+        ///// <param name="expression"></param>
+        ///// <returns></returns>
+        //public bool isValidExpression(string expression)
+        //{
+        //    throw new NotImplementedException();//TODO: add code here
+        //}
 
         /// <summary>
         /// NR-Проверить, что название класса имеет допустимый формат

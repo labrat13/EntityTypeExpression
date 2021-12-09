@@ -14,9 +14,9 @@ namespace EntityTypeExp
         
 
         /// <summary>
-        /// абстрактные надклассы
+        /// абстрактные подклассы
         /// </summary>
-        private EntityTypesCollection m_AbstractionSuperClasses;
+        private EntityTypesCollection m_AbstractionSubClasses;
 
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace EntityTypeExp
         public EntityType()
         {
             this.m_Title = String.Empty;
-            this.m_AbstractionSuperClasses = new EntityTypesCollection();
+            this.m_AbstractionSubClasses = new EntityTypesCollection();
             this.m_AggregationSubClasses = new EntityTypesCollection();
         }
 
@@ -49,7 +49,7 @@ namespace EntityTypeExp
         public EntityType(string title)
         {
             this.m_Title = title;
-            this.m_AbstractionSuperClasses = new EntityTypesCollection();
+            this.m_AbstractionSubClasses = new EntityTypesCollection();
             this.m_AggregationSubClasses = new EntityTypesCollection();
         }
 
@@ -65,12 +65,12 @@ namespace EntityTypeExp
         }
 
         /// <summary>
-        /// абстрактные надклассы
+        /// абстрактные подклассы
         /// </summary
-        public EntityTypesCollection AbstractionSuperClasses
+        public EntityTypesCollection AbstractionSubClasses
         {
-            get { return m_AbstractionSuperClasses; }
-            set { m_AbstractionSuperClasses = value; }
+            get { return m_AbstractionSubClasses; }
+            set { m_AbstractionSubClasses = value; }
         }
 
         /// <summary>
@@ -90,9 +90,17 @@ namespace EntityTypeExp
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("{0};{1};{2}", this.m_Title, this.m_AbstractionSuperClasses.Count, this.AggregationSubClasses.Count);
+            return String.Format("{0};{1};{2}", this.m_Title, this.m_AbstractionSubClasses.Count, this.AggregationSubClasses.Count);
         }
 
+        /// <summary>
+        /// NT-Проверить, имеет ли класс подклассы агрегации - является ли контейнером.
+        /// </summary>
+        /// <returns></returns>
+        public bool hasAggregation()
+        {
+            return (this.AggregationSubClasses.Count != 0);
+        }
 
         //TODO: заменить в коде функций два словаря на объекты EntityTypesCollection
         /// <summary>
@@ -104,12 +112,12 @@ namespace EntityTypeExp
         {
             throw new NotImplementedException();//TODO: Add code here
             ////проверяем элементы первого уровня Абстракции
-            //if (this.m_AbstractionSuperClasses.ContainsKey(nameOfType))
-            //    return this.m_AbstractionSuperClasses[nameOfType];
+            //if (this.m_AbstractionSubClasses.ContainsKey(nameOfType))
+            //    return this.m_AbstractionSubClasses[nameOfType];
             //else
             //{
             //    //проверяем элементы нижнего уровня
-            //    foreach (KeyValuePair<String, EntityType> kvp in this.m_AbstractionSuperClasses)
+            //    foreach (KeyValuePair<String, EntityType> kvp in this.m_AbstractionSubClasses)
             //    {
             //        EntityType res = kvp.Value.ContainsType(nameOfType);
             //        if (res != null) return res;
@@ -204,7 +212,7 @@ namespace EntityTypeExp
             //    String[] sar2 = s.Split(new string[] { "::" }, StringSplitOptions.RemoveEmptyEntries); //делим на название суперкласса и название текущего класса
             //    this.m_Title = sar2[1].Trim(); //пишем название текущего класса
             //    EntityType et = new EntityType(sar2[0].Trim()); //создаем объект для суперкласса и пишем в него имя
-            //    this.m_AbstractionSuperClasses.Add(et.Title, et); //добавляем в коллекцию суперклассов. Обратной ссылки не делаем - некуда ее писать.
+            //    this.m_AbstractionSubClasses.Add(et.Title, et); //добавляем в коллекцию суперклассов. Обратной ссылки не делаем - некуда ее писать.
             //}
             //else
             //    this.m_Title = s; //входной случай [2], в выражении нет названия суперкласса
