@@ -15,9 +15,7 @@ namespace EntityTypeExp
         //А тут весь код надо писать практически заново, для поддержки всего, что когда-нибудь, возможно, потребуется.
  
         //TODO: Добавить функции дерева 
-        //TODO: Добавить переменные класса и конструктор
-        //TODO: Решить, добавить ли сюда интерфейс вроде ICollection. 
-
+        
         //1. GetFullPath  Returns the absolute path for the specified path string.
         //- вернуть полный путь в цепочке классов 
         //- требует дерева классов
@@ -30,60 +28,26 @@ namespace EntityTypeExp
         /// <returns></returns>
         public string GetFullPath(string partialPath)
         {
+            
+            
             throw new NotImplementedException();//TODO: add code here
         }
-
-        #region Automatic name functions
-
-        //TODO: решить, следует ли часть функций перенести в отдельный класс AutomaticEntityTitle или добавить в класс EntityType
-        //TODO: решить, где задать шаблон автоматического названия классов - так, чтобы можно было легко найти и хорошо оно там лежало.
-        //TODO: описать фичу автоматического названия классов в документации проекта.
+        
 
         //2. GetRandomName  Returns a random class name.
         //- Вернуть случайное название класса для использования в пакетном добавлении классов.
         //- понятия не имею, зачем это может пригодиться, если вся суть класса здесь заключается в его названии и еще - в его связях.
         //- только в дереве классов можно определить, что название уникальное и не существует в дереве.
-        //- вместо случайного индекса будем применять порядковый. Хотя случайный в первое время быстрее, но потом - наоборот, дольше искать свободный индекс. 
 
         /// <summary>
-        /// NR-Вернуть автоматически созданное название для нового класса для использования в пакетном добавлении классов.
+        /// NR-Returns a random class name
         /// </summary>
-        /// <returns>.</returns>
-        public string GetAutomaticName()
+        /// <returns>Вернуть случайное название класса для использования в пакетном добавлении классов.</returns>
+        public string GetRandomName()
         {
-            //Создать и вернуть случайное название класса по шаблону Class_N
-            //где N - целое число, на 1 больше наибольшего имеющегося в дереве "Class_N"  
-            //Пример: если в дереве есть класс "Class_1023", новое название будет "Class_1024"
             throw new NotImplementedException();//TODO: add code here
         }
 
-        /// <summary>
-        /// NR-Вернуть все классы с автоматическими названиями по шаблону Class_N, присутствующие в дереве
-        /// </summary>
-        /// <returns></returns>
-        public EntityType[] getAutomaticNamedEntities()
-        {
-            //выбрать из дерева все классы с автоматическим названием для дальнейших работ с ними.
-            throw new NotImplementedException();//TODO: add code here
-        }
-
-        /// <summary>
-        /// NR-вернуть true если название соответствует шаблону автоматического названия
-        /// </summary>
-        /// <param name="entityTypeName"></param>
-        /// <returns></returns>
-        public static bool isAutomaticNamedEntity(string entityTypeName)
-        {
-            //вернуть true если название соответствует шаблону автоматического названия
-            throw new NotImplementedException();//TODO: add code here
-        }
-
-        public static int getAutomaticNamedEntityIndex(string entityTypeName)
-        {
-            //вернуть порядковый номер класса или 0 если если название соответствует шаблону автоматического названия
-            throw new NotImplementedException();//TODO: add code here
-        }
-#endregion
 
         //3. Добавить выражение классов Сущности для пополнения Дерева классов.
         //- А) каждое вхождение класса представлено собственным объектом
@@ -93,9 +57,9 @@ namespace EntityTypeExp
         //- В) реализовать дерево, как оно сделано в браузере Хранилищ.
         //- код есть в материалах проекта?
         //- ТОДО: сформулировать способ построения такого дерева здесь
-        //TODO: проверять, что выражение не противоречит уже существующему дереву. 
-        //  Если есть конфликт структуры и наследования, то выдавать ошибку или выбрасывать исключение. 
-        //  Для этого надо разработать теорию для выявления ошибок структуры классов.
+		//TODO: проверять, что выражение не противоречит уже существующему дереву. 
+		//  Если есть конфликт структуры и наследования, то выдавать ошибку или выбрасывать исключение. 
+		//  Для этого надо разработать теорию для выявления ошибок структуры классов.
         /// <summary>
         /// NR-Добавить выражение классов Сущности для пополнения Дерева классов.
         /// </summary>
@@ -104,20 +68,7 @@ namespace EntityTypeExp
         {
             throw new NotImplementedException();//TODO: add code here
         }
-
-        //14. - проверить, что указанное выражение записи цепочки классов уже есть в дереве классов.
-        //- запись может содержать несколько классов, любой из которых, может оказаться, не присутствует в дереве.
-        //  Поэтому результат Да-Нет тут не может быть использован.
-        //Тут надо разделить цепочку на раздельные записи классов (по ;) и каждую проверять.
-        /// <summary>
-        /// NR-проверить, что указанное выражение записи цепочки классов уже есть в дереве классов.
-        /// </summary>
-        /// <param name="expression">Выражение классов</param>
-        /// <returns></returns>
-        public bool isExpressionExists(string expression)
-        {
-            throw new NotImplementedException();//TODO: add code here
-        }
+        
 
         //5. Получить список корневых классов дерева 
         //- TODO: как массив названий или как массив объектов EntityType?
@@ -238,32 +189,21 @@ namespace EntityTypeExp
             throw new NotImplementedException();//TODO: add code here
         }
 
-        //19. Для данных нескольких классов вернуть общий надкласс и пути от него до каждого из указанных классов.
-        //- Это возможно, если все указанные классы имеют общий надкласс.
-        //  TODO: А если это не так, то что делать?
 
+        //14. - проверить, что указанное выражение записи цепочки классов уже есть в дереве классов.
+        //- запись может содержать несколько классов, любой из которых, может оказаться, не присутствует в дереве.
+        //  Поэтому результат Да-Нет тут не может быть использован.
+        //Тут надо разделить цепочку на раздельные записи классов (по ;) и каждую проверять.
         /// <summary>
-        /// NR-Для данных нескольких классов вернуть общий надкласс
+        /// NR-проверить, что указанное выражение записи цепочки классов уже есть в дереве классов.
         /// </summary>
-        /// <param name="classes">Массив классов</param>
+        /// <param name="expression">Выражение классов</param>
         /// <returns></returns>
-        public string GetSingleAbstraction(string[] classes)
-        {
-            throw new NotImplementedException();//TODO: add code here
-        }
-        /// <summary>
-        /// NR-Для данных нескольких классов вернуть общий надкласс
-        /// </summary>
-        /// <param name="classes">Массив классов</param>
-        /// <returns></returns>
-        public EntityType GetSingleAbstractionEntity(EntityType[] classes)
+        public bool isExpressionExists(string expression)
         {
             throw new NotImplementedException();//TODO: add code here
         }
 
-
-       
-        #region Loas and Store functions
         //15. Вывести дерево классов в текстовый файл, в XML-файл.
         /// <summary>
         /// NR-Вывести дерево классов в текстовый файл
@@ -303,9 +243,7 @@ namespace EntityTypeExp
         {
             throw new NotImplementedException();//TODO: add code here
         }
-        #endregion
 
-        #region Tree merging functions
 
         //17. Выполнить сложение (слияние) двух деревьев.
         //- Результатом должно стать новое дерево
@@ -336,13 +274,31 @@ namespace EntityTypeExp
         {
             throw new NotImplementedException();//TODO: add code here
         }
-        #endregion
 
+        //19. Для данных нескольких классов вернуть общий надкласс и пути от него до каждого из указанных классов.
+        //- Это возможно, если все указанные классы имеют общий надкласс.
+        //  TODO: А если это не так, то что делать?
 
+        /// <summary>
+        /// NR-Для данных нескольких классов вернуть общий надкласс
+        /// </summary>
+        /// <param name="classes">Массив классов</param>
+        /// <returns></returns>
+        public string GetSingleAbstraction(string[] classes)
+        {
+            throw new NotImplementedException();//TODO: add code here
+        }
+        /// <summary>
+        /// NR-Для данных нескольких классов вернуть общий надкласс
+        /// </summary>
+        /// <param name="classes">Массив классов</param>
+        /// <returns></returns>
+        public EntityType GetSingleAbstractionEntity(EntityType[] classes)
+        {
+            throw new NotImplementedException();//TODO: add code here
+        }
 
-
-
-
+       
 
     }
 }

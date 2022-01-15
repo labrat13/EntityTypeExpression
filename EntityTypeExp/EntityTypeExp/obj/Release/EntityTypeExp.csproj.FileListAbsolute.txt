@@ -6,3 +6,12 @@ C:\Users\Администратор\Documents\GitHub\EntityTypeExpression\Entity
 C:\Users\Администратор\Documents\GitHub\EntityTypeExpression\EntityTypeExp\EntityTypeExp\bin\Release\EntityTypeExp.pdb
 C:\Users\Администратор\Documents\GitHub\EntityTypeExpression\EntityTypeExp\EntityTypeExp\obj\Release\EntityTypeExp.exe
 C:\Users\Администратор\Documents\GitHub\EntityTypeExpression\EntityTypeExp\EntityTypeExp\obj\Release\EntityTypeExp.pdb
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\obj\Release\EntityTypeExp.csproj.AssemblyReference.cache
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\obj\Release\EntityTypeExp.csproj.CoreCompileInputs.cache
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\obj\Release\EntityTypeExp.exe
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\obj\Release\EntityTypeExp.pdb
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\bin\Release\Readme-EntityTypeExpression.txt
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\bin\Release\Version-EntityTypeExpression.txt
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\bin\Release\EntityTypeExp.exe.config
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\bin\Release\EntityTypeExp.exe
+C:\Users\1\source\repos\EntityTypeExpression\EntityTypeExp\EntityTypeExp\bin\Release\EntityTypeExp.pdb

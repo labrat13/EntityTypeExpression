@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,8 +8,10 @@ namespace EntityTypeExp
     /// <summary>
     /// Коллекция-словарь типов сущностей
     /// </summary>
-    public class EntityTypesCollection
+    public class EntityTypesCollection: ICollection<EntityType>
     {
+        //TODO: интерфейс ICollection добавлен, но неудобен для использования.
+        
         #region *** Fields ***
         /// <summary>
         /// Словарь типов сущностей первого уровня
@@ -18,53 +21,44 @@ namespace EntityTypeExp
 
 
         /// <summary>
-        /// Default constructor
+        /// RT-Default constructor
         /// </summary>
         public EntityTypesCollection()
         {
             this.m_EntityTypes = new Dictionary<string, EntityType>();
         }
+        
         #region *** Properties ***
+
         /// <summary>
-        /// Словарь типов сущностей первого уровня
+        /// RT-Словарь типов сущностей первого уровня
         /// </summary>
-        public Dictionary<String, EntityType> EntityTypes
+        internal Dictionary<String, EntityType> EntityTypes
         {
             get { return m_EntityTypes; }
             set { m_EntityTypes = value; }
         }
+
+
         /// <summary>
-        /// Возвращает число элементов коллекции
+        /// RT-Возвращает число элементов коллекции
         /// </summary>
-        public Int32 Count
+        public int Count
         {
             get { return this.m_EntityTypes.Count; }
         }
-        #endregion
 
         /// <summary>
-        /// NR-Ищет запись типа по его названию. Если тип не упомянут, возвращается null
+        /// NR- Flag for Collection is read-only
         /// </summary>
-        /// <param name="nameOfType">Название типа</param>
-        /// <returns>Возвращает первый найденный объект записи типа или null если объект не найден</returns>
-        public EntityType ContainsType(String nameOfType)
+        public bool IsReadOnly
         {
-            throw new NotImplementedException();//TODO: Add code here
-            ////ищем в словаре объект по названию класса. 
-            ////Предполагается, что название класса уникальное?
-            //if (m_EntityTypes.ContainsKey(nameOfType))
-            //    return m_EntityTypes[nameOfType];
-            //else
-            //{
-            //    //а если не нашли, то перебором всех элементов словаря ищем в них класс по имени класса. 
-            //    foreach (KeyValuePair<String, EntityType> kvp in m_EntityTypes)
-            //    {
-            //        EntityType res = kvp.Value.ContainsType(nameOfType);
-            //        if (res != null) return res;
-            //    }
-            //    return null;
-            //}
+            get { throw new NotImplementedException(); } //TODO: Add code here
         }
+
+        #endregion
+
+
 
         /// <summary>
         /// NR-Распарсить строку описания классов сущности в дерево классов
@@ -101,5 +95,128 @@ namespace EntityTypeExp
             //return;
         }
 
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <param name="item"></param>
+        public void Add(EntityType item)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <param name="ets"></param>
+        public void Add(EntityType[] ets)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        public void Clear()
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Contains(EntityType item)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-Ищет запись типа по его названию. Если тип не упомянут, возвращается null
+        /// </summary>
+        /// <param name="nameOfType">Название типа</param>
+        /// <returns>Возвращает первый найденный объект записи типа или null если объект не найден</returns>
+        public EntityType ContainsType(String nameOfType)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+            ////ищем в словаре объект по названию класса. 
+            ////Предполагается, что название класса уникальное?
+            //if (m_EntityTypes.ContainsKey(nameOfType))
+            //    return m_EntityTypes[nameOfType];
+            //else
+            //{
+            //    //а если не нашли, то перебором всех элементов словаря ищем в них класс по имени класса. 
+            //    foreach (KeyValuePair<String, EntityType> kvp in m_EntityTypes)
+            //    {
+            //        EntityType res = kvp.Value.ContainsType(nameOfType);
+            //        if (res != null) return res;
+            //    }
+            //    return null;
+            //}
+        }
+
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
+        public void CopyTo(EntityType[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <returns></returns>
+        public EntityType[] toArray()
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Remove(EntityType item)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        /// <summary>
+        /// NR-
+        /// </summary>
+        /// <param name="EntityTypeName"></param>
+        public void Remove(String EntityTypeName)
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        IEnumerator<EntityType> IEnumerable<EntityType>.GetEnumerator()
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();//TODO: Add code here
+        }
     }//end class
 }
